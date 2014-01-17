@@ -29,6 +29,7 @@ public class PotterCart {
 			if (bookSet.contains(bookId)) {
 				continue;
 			}
+
 			bookSet.add(bookId);
 			return;
 		}
@@ -39,40 +40,42 @@ public class PotterCart {
 	}
 
 	public Double getOverall() {
-		optimizeSets();
+		optimizeBookSets();
 		return calculateOverall();
 	}
 
-	private void optimizeSets() {
+	private void optimizeBookSets() {
 		// Execute a simple greedy optimization by searching for sets with 3
 		// books and sets with 5 books and balance them.
-		for (Set<Integer> beloWaterline : bookSets) {
+		for (Set<Integer> belowWaterline : bookSets) {
 			if (beloWaterline.size() != 3) {
 				continue;
 			}
+
 			for (Set<Integer> overWaterline : bookSets) {
 				// Skip the current lowFilledSet
-				if (beloWaterline.equals(overWaterline)) {
+				if (belowWaterline.equals(overWaterline)) {
 					continue;
 				}
+
 				if (overWaterline.size() != 5) {
 					continue;
 				}
 
 				// Find the book that is not in the set with three books
 				// and move it over from the larger set.
-				Iterator<Integer> overfilledSet = overWaterline.iterator();
-				while (overfilledSet.hasNext()) {
-					Integer bookId = overfilledSet.next();
-					if (beloWaterline.contains(bookId)) {
+				Iterator<Integer> overfilled = overWaterline.iterator();
+				while (overfilled.hasNext()) {
+					Integer bookId = overfilled.next();
+					if (belowWaterline.contains(bookId)) {
 						continue;
 					}
-					overfilledSet.remove();
-					beloWaterline.add(bookId);
+
+					overfilled.remove();
+					belowWaterline.add(bookId);
 					break;
 				}
 				break;
-
 			}
 		}
 	}
