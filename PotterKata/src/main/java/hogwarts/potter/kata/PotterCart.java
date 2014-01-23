@@ -48,12 +48,11 @@ public class PotterCart {
 		// Execute a simple greedy optimization by searching for sets with 3
 		// books and sets with 5 books and balance them.
 		for (Set<Integer> belowWaterline : bookSets) {
-			if (beloWaterline.size() != 3) {
+			if (belowWaterline.size() != 3) {
 				continue;
 			}
 
 			for (Set<Integer> overWaterline : bookSets) {
-				// Skip the current lowFilledSet
 				if (belowWaterline.equals(overWaterline)) {
 					continue;
 				}
