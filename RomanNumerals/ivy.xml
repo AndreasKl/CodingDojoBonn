@@ -6,6 +6,6 @@
 	<info organisation="" module="" status="integration">
 	</info>
 	<dependencies>
-		<dependency org="org.testng" name="testng" rev="6.8.8" />
+		<dependency org="junit" name="junit" rev="4.11"/>
 	</dependencies>
 </ivy-module>

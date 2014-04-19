@@ -1,15 +1,12 @@
 package de.bonn.codingdojo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RomanLiteralConverter {
 
     private static final List<NumeralToRomanMapping> MAPPINGS;
     static {
-        List<NumeralToRomanMapping> mappings = new ArrayList<NumeralToRomanMapping>();
-
         NumeralToRomanMapping I = new NumeralToRomanMapping(1, "I");
         NumeralToRomanMapping V = new NumeralToRomanMapping(5, "V", I);
         NumeralToRomanMapping X = new NumeralToRomanMapping(10, "X", I);
@@ -17,7 +14,8 @@ public class RomanLiteralConverter {
         NumeralToRomanMapping C = new NumeralToRomanMapping(100, "C", X);
         NumeralToRomanMapping D = new NumeralToRomanMapping(500, "D", C);
         NumeralToRomanMapping M = new NumeralToRomanMapping(1000, "M", C);
-
+        
+        List<NumeralToRomanMapping> mappings = new ArrayList<NumeralToRomanMapping>(7);
         mappings.add(M);
         mappings.add(D);
         mappings.add(C);
@@ -25,8 +23,7 @@ public class RomanLiteralConverter {
         mappings.add(X);
         mappings.add(V);
         mappings.add(I);
-
-        MAPPINGS = Collections.unmodifiableList(mappings);
+        MAPPINGS = mappings;
     }
 
     public static String convert(int number) {
@@ -39,35 +36,23 @@ public class RomanLiteralConverter {
     private static String convertCore(int number) {
         StringBuilder sb = new StringBuilder();
         int remainder = number;
-        while (true) {
+        while (remainder != 0) {
             for (NumeralToRomanMapping mapping : MAPPINGS) {
-                if (isAppend(remainder, mapping)) {
-                    remainder -= mapping.getNumeric();
+                if (mapping.canAppend(remainder)) {
                     sb.append(mapping.getRoman());
+                    remainder -= mapping.getNumeric();
                     break;
                 }
 
-                if (isPrepend(remainder, mapping)) {
-                    NumeralToRomanMapping prepend = mapping.getAllowedToPrepend();
-                    remainder += prepend.getNumeric() - mapping.getNumeric();
+                if (mapping.canPrepend(remainder)) {
+                    NumeralToRomanMapping prepend = mapping.getToPrepend();
                     sb.append(prepend.getRoman() + mapping.getRoman());
+                    remainder += prepend.getNumeric() - mapping.getNumeric();
                     break;
                 }
-            }
-
-            if (remainder == 0) {
-                return sb.toString();
             }
         }
-    }
-
-    private static boolean isAppend(int remainder, NumeralToRomanMapping mapping) {
-        return mapping.getNumeric() <= remainder;
-    }
-
-    private static boolean isPrepend(int remainder, NumeralToRomanMapping mapping) {
-        return mapping.getAllowedToPrepend() != null
-                && mapping.getNumeric() - mapping.getAllowedToPrepend().getNumeric() <= remainder;
+        return sb.toString();
     }
 
 }
