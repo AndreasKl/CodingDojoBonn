@@ -53,7 +53,6 @@ public class RomanLiteralConverter {
                     sb.append(prepend.getRoman() + mapping.getRoman());
                     break;
                 }
-
             }
 
             if (remainder == 0) {
