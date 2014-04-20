@@ -6,4 +6,4 @@ Thanks to Christoph Baudson (https://github.com/sustainablepace/) for pushing me
 a non-recursive state-less solution. Pairing was fun :-)
 
 * Ivy for dependencies.
-* Data-driven tests with TestNG (test data generated with Excel).
+* Data-driven tests with ~~TestNG~~ JUnit (test data generated with Excel).
